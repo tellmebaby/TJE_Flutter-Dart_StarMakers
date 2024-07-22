@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main' : (context) => const MainScreen(),
         '/board/list' : (context) => const ListScreen(),
-        '/board/read' : (context) => const ReadScreen(),
-        '/board/insert' : (context) => const InsertScreen(),
-        '/board/update' : (context) => const UpdateScreen(),
+        // '/board/read' : (context) => const ReadScreen(),
+        // '/board/insert' : (context) => const InsertScreen(),
+        // '/board/update' : (context) => const UpdateScreen(),
       },
     );
   }
