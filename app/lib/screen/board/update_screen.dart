@@ -44,7 +44,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   /// 👩‍💻 게시글 조회 요청
   ///
   Future<void> getBoard(int no) async {
-    var url = "http://localhost:8080/board/$no";
+    var url = "http://10.0.2.2:8080/$no";
     try {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -65,13 +65,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
   /// 게시글 수정 요청
   Future<void> updateBoard() async {
     if (_formKey.currentState!.validate()) {
-      var url = "http://localhost:8080/board";
+      var url = "http://10.0.2.2:8080/updateBoard";
       try {
         var response = await http.put(
           Uri.parse(url),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
-            'no' : no,
+            'no': no,
             'title': _titleController.text,
             'writer': _writerController.text,
             'content': _contentController.text,
@@ -105,12 +105,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   /// 게시글 삭제 요청
   Future<bool> deleteBoard(int no) async {
-    var url = "http://localhost:8080/board/$no";
+    var url = "http://10.0.2.2:8080/$no";
     try {
       var response = await http.delete(Uri.parse(url));
       print("::::: response - statusCode :::::");
       print(response.statusCode);
-      
+
       if (response.statusCode == 200 || response.statusCode == 204) {
         // 성공적으로 삭제됨
         print("게시글 삭제 성공");
@@ -139,15 +139,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
             onSelected: (String value) async {
               if (value == 'delete') {
                 bool check = await _showDeleteConfirmDialog();
-                if( check ) {
+                if (check) {
                   deleteBoard(no).then((result) {
-                    if( result ) {
+                    if (result) {
                       Navigator.pop(context);
                       Navigator.pushReplacementNamed(context, "/board/list");
                     }
                   });
                 }
-
               }
             },
           )
@@ -248,8 +247,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
     return result;
   }
-
-  
 }
 
 

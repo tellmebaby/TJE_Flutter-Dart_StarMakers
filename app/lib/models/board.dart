@@ -99,10 +99,10 @@ class _ListScreenState extends State<ListScreen> {
         var utf8Decoded = utf8.decode(response.bodyBytes);
         // JSON 디코딩
         var jsonResponse = jsonDecode(utf8Decoded);
-        
+
         // JSON 데이터에서 "starList" 배열 추출
         var boardList = jsonResponse['starList'];
-        
+
         // Null 및 타입 체크
         if (boardList is List) {
           for (var item in boardList) {
