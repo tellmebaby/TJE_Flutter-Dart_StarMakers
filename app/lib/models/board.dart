@@ -86,7 +86,8 @@ class _ListScreenState extends State<ListScreen> {
 
   // 게시글 목록 데이터 요청
   Future<List<Board>> getBoardList() async {
-    var url = "http://localhost:8080/starCard/List";
+    // var url = "http://localhost:8080/starCard/List";
+    var url = "http://10.0.2.2:8080/starCard/List";
 
     List<Board> list = [];
     try {
