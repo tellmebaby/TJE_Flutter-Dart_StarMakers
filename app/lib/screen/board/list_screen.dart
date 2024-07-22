@@ -76,6 +76,7 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   List<Board> _boardList = [];
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -85,6 +86,12 @@ class _ListScreenState extends State<ListScreen> {
         _boardList = result;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   // 게시글 목록 데이터 요청
@@ -127,114 +134,98 @@ class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("게시글 목록")),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
-        child: ListView.builder(
-          itemCount: _boardList.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage("http://localhost:8080/file/img/${_boardList[index].imgNo}"),
-                    fit: BoxFit.cover,
-                  ),
+      appBar: AppBar(
+  title: Container(
+    color: Colors.black,
+    padding: const EdgeInsets.all(8.0),
+    child: Image.asset(
+      'assets/images/logo.png',
+      fit: BoxFit.contain,
+      height: kToolbarHeight - 16, // Adjust height as needed
+    ),
+  ),
+  centerTitle: true, // Center the title
+),
+      body: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        physics: const CustomPageViewScrollPhysics(),
+        itemCount: _boardList.length,
+        itemBuilder: (context, index) {
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: Image.network(
+                  "http://localhost:8080/file/img/${_boardList[index].imgNo}",
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.7,
                 ),
-                child: ListTile(
-                  title: Text(
-                    _boardList[index].title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  subtitle: Column(
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: double.infinity,
+                  color: Colors.black.withOpacity(0.7),
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        _boardList[index].title,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
                         '작성자: ${_boardList[index].writer}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '내용: ${_boardList[index].content}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '등록일: ${_boardList[index].regDate}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '수정일: ${_boardList[index].updDate}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '조회수: ${_boardList[index].views}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '유저 번호: ${_boardList[index].userNo}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '결제 번호: ${_boardList[index].payNo}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '좋아요: ${_boardList[index].likes}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '상태: ${_boardList[index].status}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '카드: ${_boardList[index].card}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '카테고리1: ${_boardList[index].category1}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '카테고리2: ${_boardList[index].category2}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '타입: ${_boardList[index].type}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '시작일: ${_boardList[index].startDate}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '종료일: ${_boardList[index].endDate}',
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ],
+          );
+        },
       ),
     );
   }
+}
+
+class CustomPageViewScrollPhysics extends ScrollPhysics {
+  const CustomPageViewScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
+
+  @override
+  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
+  }
+
+  @override
+  Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
+    final Tolerance tolerance = this.tolerance;
+    if (velocity.abs() < tolerance.velocity && position.outOfRange) {
+      return ScrollSpringSimulation(spring, position.pixels, position.minScrollExtent, 0.0, tolerance: tolerance);
+    }
+    return super.createBallisticSimulation(position, velocity);
+  }
+
+  @override
+  double get minFlingVelocity => 50.0;
+
+  @override
+  double get maxFlingVelocity => 2000.0;
+  
+  @override
+  SpringDescription get spring => const SpringDescription(
+    mass: 80.0,
+    stiffness: 100.0,
+    damping: 1.0,
+  );
 }
