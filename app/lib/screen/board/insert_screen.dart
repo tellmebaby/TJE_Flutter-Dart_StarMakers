@@ -17,7 +17,7 @@ class _InsertScreenState extends State<InsertScreen> {
 
   Future<void> insert() async {
     if (_formKey.currentState!.validate()) {
-      var url = "http://localhost:8080/board";
+      var url = "http://10.0.2.2:8080/starCard";
       try {
         var response = await http.post(
           Uri.parse(url),

@@ -86,7 +86,8 @@ class _ListScreenState extends State<ListScreen> {
 
   // 게시글 목록 데이터 요청
   Future<List<Board>> getBoardList() async {
-    var url = "http://localhost:8080/starCard/List";
+    // var url = "http://localhost:8080/starCard/List";
+    var url = "http://10.0.2.2:8080/starCard/List";
 
     List<Board> list = [];
     try {
@@ -98,10 +99,10 @@ class _ListScreenState extends State<ListScreen> {
         var utf8Decoded = utf8.decode(response.bodyBytes);
         // JSON 디코딩
         var jsonResponse = jsonDecode(utf8Decoded);
-        
+
         // JSON 데이터에서 "starList" 배열 추출
         var boardList = jsonResponse['starList'];
-        
+
         // Null 및 타입 체크
         if (boardList is List) {
           for (var item in boardList) {
