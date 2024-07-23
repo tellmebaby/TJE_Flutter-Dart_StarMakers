@@ -45,6 +45,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   ///
   Future<void> getBoard(int no) async {
     var url = "http://10.0.2.2:8080/$no";
+    // var url = "http://localhost:8080/$no";
     try {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -66,6 +67,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   Future<void> updateBoard() async {
     if (_formKey.currentState!.validate()) {
       var url = "http://10.0.2.2:8080/updateBoard";
+      // var url = "http://localhost:8080/updateBoard";
       try {
         var response = await http.put(
           Uri.parse(url),
@@ -106,6 +108,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   /// 게시글 삭제 요청
   Future<bool> deleteBoard(int no) async {
     var url = "http://10.0.2.2:8080/$no";
+    // var url = "http://localhost:8080/$no";
     try {
       var response = await http.delete(Uri.parse(url));
       print("::::: response - statusCode :::::");
