@@ -140,6 +140,7 @@ class _ListScreenState extends State<ListScreen> {
                   image: DecorationImage(
                     image: NetworkImage(
                         "http://10.0.2.2:8080/file/img/${_boardList[index].imgNo}"),
+                    // "http://localhost:8080/file/img/${_boardList[index].imgNo}"),
                     fit: BoxFit.cover,
                   ),
                 ),
