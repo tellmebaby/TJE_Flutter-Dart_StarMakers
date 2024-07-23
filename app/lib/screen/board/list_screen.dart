@@ -238,6 +238,12 @@ class _ListScreenState extends State<ListScreen> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, "/board/insert");
+        },
+        child: const Icon(Icons.create),
+      ),
     );
   }
 }

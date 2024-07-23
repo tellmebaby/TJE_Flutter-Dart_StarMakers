@@ -5,7 +5,6 @@ import 'package:app/screen/board/update_screen.dart';
 import 'package:app/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -24,10 +23,10 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/main',
       routes: {
-        '/main' : (context) => const MainScreen(),
-        '/board/list' : (context) => const ListScreen(),
+        '/main': (context) => const MainScreen(),
+        '/board/list': (context) => const ListScreen(),
         // '/board/read' : (context) => const ReadScreen(),
-        // '/board/insert' : (context) => const InsertScreen(),
+        '/board/insert': (context) => const InsertScreen(),
         // '/board/update' : (context) => const UpdateScreen(),
       },
     );
